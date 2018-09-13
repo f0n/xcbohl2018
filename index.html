@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IGC example</title>
+<script src='https://code.jquery.com/jquery-1.11.2.min.js'></script>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+<link rel='stylesheet' href='http://openlayers.org/en/v3.10.1/css/ol.css' type='text/css'>
+<script src='http://openlayers.org/en/v3.10.1/build/ol.js'></script>
+
+<style>
+
+html, body {
+height: 100%;
+}
+
+
+#legende{
+position: absolute;
+z-index: 100000;
+margin-left: 3%;
+width: 35%;
+}
+
+#cuhg_logo{
+  width: 50%;
+  margin-left: -3%;
+  margin-top: 3%;
+}
+
+
+
+#Task {
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    font-size: 12px;
+
+
+}
+
+#Task td, #Task th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#Task tr:nth-child(even){background-color: #f2f2f2;}
+#Task tr:nth-child(odd){background-color: #ffffff;}
+
+#Task tr:hover {background-color: #ddd;}
+
+#Task th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+h2 {
+    text-shadow: 1px 1px #0066ff;
+}
+
+.ALL {margin: auto;}
+</style>
+
+
+</head>
+<body><div class='ALL'>
+
+<div class='container-fluid'>
+
+<div class='row-fluid'>
+  <div class='span12'>
+    <div id='map' class='map'>
+
+      <div id='legende'>
+
+          <div class='udiv_legende' id='legende_1'>
+              <img id='cuhg_logo' src='https://www.cuhanggliding.com/wp-content/uploads/2017/11/shirt-design_21-1024x947.png'>
+              <div id='Task'>
+                <h2>XC Bohl 2018 - Task 1</h2>
+                <table>
+                <thead>
+                <tr>
+                <th  >No</th>
+                <th  >Leg Dist.</th>
+                <th  >Id</th>
+                <th  >Radius</th>
+                <th  >Open</th>
+                <th  >Close</th>
+                <th  >Coordinates (Lat, Lon)</th>
+                <th  >Altitude</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td  >1</td>
+                <td   align='right'>0.0 km
+                </td>
+                <td  >BIGSPR</td>
+                <td   align='right'>400 m
+                </td>
+                <td  >14:45</td>
+                <td  >20:00</td>
+                <td  >
+                    32.2176, -101.5249</td>
+                <td   align='right'>771 m
+                </td>
+                </tr>
+                <tr>
+                <td  >2 SS</td>
+                <td   align='right'>6.1 km
+                </td>
+                <td  >WEST5K</td>
+                <td   align='right'>6000 m
+                </td>
+                <td>14:45</td>
+                <td>20:00</td>
+                <td>32.21625, -101.57717</td>
+                <td align='right'>754 m
+                </td>
+                </tr>
+                <tr>
+                <td  >3</td>
+                <td   align='right'>37.6 km
+                </td>
+                <td  >ACKERL</td>
+                <td   align='right'>2000 m
+                </td>
+                <td  >14:45</td>
+                <td  >20:00</td>
+                <td>32.52643, -101.71603</td>
+                <td   align='right'>846 m
+                </td>
+                </tr>
+                <tr>
+                <td  >4</td>
+                <td   align='right'>101.9 km
+                </td>
+                <td  >GAINES</td>
+                <td   align='right'>25000 m
+                </td>
+                <td  >14:45</td>
+                <td  >20:00</td>
+                <td> 32.671, -102.6465</td>
+                <td   align='right'>1006 m
+                </td>
+                </tr>
+                <tr>
+                <td  >5</td>
+                <td   align='right'>130.6 km
+                </td>
+                <td  >56T</td>
+                <td   align='right'>12000 m
+                </td>
+                <td  >14:45</td>
+                <td  >20:00</td>
+                <td> 32.92707, -102.12322</td>
+                <td   align='right'>945 m
+                </td>
+                </tr>
+                <tr>
+                <td  >6 ES</td>
+                <td   align='right'>149.0 km
+                </td>
+                <td  >LAMESA</td>
+                <td   align='right'>1000 m
+                </td>
+                <td  >14:45</td>
+                <td  >20:00</td>
+                <td> 32.7592, -101.9192</td>
+                <td   align='right'>914 m
+                </td>
+                </tr>
+                </tbody>
+                </table>
+              </div>
+              <br>
+              <br>
+          </div>
+      </div>
+
+
+    </div>
+
+
+    <input id='time' type='range' value='0' steps='1' />
+    <div class='span4 offset4 pull-left'>
+      <div id='info' class='alert alert-success'>
+        &nbsp;
+      </div>
+    </div>
+  </div>
+</div>
+
+</div></div>
+<script>
+
+            // Geometries
+            var wha     = new ol.geom.Circle(ol.proj.transform([-96.1543889, 29.2542778], 'EPSG:4326', 'EPSG:3857'), 400);
+            var circle  = new ol.geom.Circle(ol.proj.transform([-96.1543889, 29.2542778], 'EPSG:4326', 'EPSG:3857'), 6000 );
+            var gloster = new ol.geom.Circle(ol.proj.transform([-96.0598000, 29.7285833], 'EPSG:4326', 'EPSG:3857'), 2000 );
+            var eagle   = new ol.geom.Circle(ol.proj.transform([-96.3220667, 29.6004330], 'EPSG:4326', 'EPSG:3857'), 8000 );
+            var eagleair   = new ol.geom.Circle(ol.proj.transform([-95.579650000000, 28.982483333000], 'EPSG:4326', 'EPSG:3857'), 8000 );
+            var san1   = new ol.geom.Circle(ol.proj.transform([-96.984500000000, 27.943566667000], 'EPSG:4326', 'EPSG:3857'), 8000 );
+            var san2   = new ol.geom.Circle(ol.proj.transform([-97.864800000000, 29.892650000000], 'EPSG:4326', 'EPSG:3857'), 8000 );
+            var matago1   = new ol.geom.Circle(ol.proj.transform([-96.457233333000, 28.326683333000], 'EPSG:4326', 'EPSG:3857'), 8000 );
+            var matago2   = new ol.geom.Circle(ol.proj.transform([-96.121116667000, 28.544066667000], 'EPSG:4326', 'EPSG:3857'), 8000 );
+
+            var points = [[-96.1543889, 29.2542778],
+                          [-96.0598000, 29.7285833],
+                          [-96.3220667, 29.6004330],
+                          [-96.1543889, 29.2542778]];
+
+
+            for (var i = 0; i < points.length; i++) {
+                points[i] = ol.proj.transform(points[i], 'EPSG:4326', 'EPSG:3857');
+                }
+
+                var featureLine = new ol.Feature({
+                geometry: new ol.geom.LineString(points)
+                });
+            var vectorLine = new ol.source.Vector({});
+            vectorLine.addFeature(featureLine);
+
+            var vectorLineLayer = new ol.layer.Vector({
+                source: vectorLine,
+                style: new ol.style.Style({
+                fill: new ol.style.Fill({ color: '#00FF00', weight: 4 }),
+                stroke: new ol.style.Stroke({ color: '#00FF00', width: 2 })
+                })
+                });
+
+            // Features
+            var pointFeature = new ol.Feature({geometry: wha, label: 'CUHG'});
+            var circleFeature = new ol.Feature(circle);
+            var glosterFeature = new ol.Feature({geometry: gloster, label: 'Gloster'});
+            var eagleFeature = new ol.Feature({geometry: eagle, label: 'Eagle 1 (Eagle Lake)'});
+            var eagleairFeature = new ol.Feature({geometry: eagleair, label: 'Eagle 2 (Eagle Air)'});
+            var san1Feature = new ol.Feature({geometry: san1, label: 'San 1 (San Jose Island)'});
+            var san2Feature = new ol.Feature({geometry: san2, label: 'San 2 (San Marcos Regional)'});
+            var matago1Feature = new ol.Feature({geometry: matago1, label: 'Matago 1 (Matagorda Island)'});
+            var matago2Feature = new ol.Feature({geometry: matago2, label: 'Matago 2 (Unverified runway)'});
+
+
+
+
+            // Source and vector layer
+            var vectorSource = new ol.source.Vector({
+                projection: 'EPSG:4326',
+                features: [pointFeature, circleFeature, glosterFeature, eagleFeature, eagleairFeature, san1Feature, san2Feature, matago1Feature, matago2Feature]
+            });
+
+            var style = new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(20, 100, 240, 0.3)'
+                }),
+                stroke: new ol.style.Stroke({
+                    width: 3,
+                    color: 'rgba(0, 100, 240, 0.8)'
+                }),
+                image: new ol.style.Circle({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(55, 200, 150, 0.5)'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        width: 10,
+                        color: 'rgba(55, 200, 150, 0.8)'
+                    }),
+                    radius: 7
+                }),
+                text: new ol.style.Text({
+                  font: '22px Calibri,sans-serif',
+
+                  fill: new ol.style.Fill({
+                    color: '#2f2f2f'
+                  }),
+                  stroke: new ol.style.Stroke({
+                    color: '#cccccc',
+                    width: 4
+
+                  }),
+                  offsetX: 14,
+                  offsetY: -14
+                }),
+            });
+
+            var vectorLayer = new ol.layer.Vector({
+                                  source: vectorSource,
+                                  style: function(feature) {
+                                        style.getText().setText(feature.get('label'));
+                                        return [style];
+                                      }
+                                  });
+
+/* **********************************************
+// Points
+      function pointStyleFunction(feature, resolution) {
+        return new ol.style.Style({
+          text: createTextStyle(feature, resolution, myDom.points)
+        });
+      }
+
+      var vectorPoints = new ol.layer.Vector({
+        source: vectorSource,
+        style: new ol.style.Style({
+                  new ol.style.Text({
+                     text: feature.get('label'),
+                     placement: })
+
+        });
+      });
+/* ********************************************** */
+
+
+
+
+
+var colors = {
+  'Mick Howard': 'rgba(0, 0, 255, 0.7)',
+  'Bart Weghorst': 'rgba(0, 215, 255, 0.7)',
+  //'Tyson Taylor': 'rgba(153, 153, 0, 0.95)',
+  //'Tom Payne': 'rgba(0, 255, 255, 0.7)',
+  //'Ulrich Prinz': 'rgba(0, 215, 255, 0.7)'
+};
+
+var styleCache = {};
+var styleFunction = function(feature, resolution) {
+  var color = colors[feature.get('PLT')];
+  var styleArray = styleCache[color];
+  if (!styleArray) {
+    styleArray = [new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: color,
+        width: 3
+      })
+    })];
+    styleCache[color] = styleArray;
+  }
+  return styleArray;
+};
+
+var vectorSource = new ol.source.Vector();
+
+var igcUrls = [
+  'Bart.igc',
+  'mick.igc',
+  //'Jeff_Colombia.igc',
+  //'data/igc/Tom-Payne.igc',
+  //'data/igc/Ulrich-Prinz.igc'
+];
+
+function get(url, callback) {
+  var client = new XMLHttpRequest();
+  client.open('GET', url);
+  client.onload = function() {
+    callback(client.responseText);
+  };
+  client.send();
+}
+
+var igcFormat = new ol.format.IGC();
+for (var i = 0; i < igcUrls.length; ++i) {
+  get(igcUrls[i], function(data) {
+    var features = igcFormat.readFeatures(data,
+        {featureProjection: 'EPSG:3857'});
+    vectorSource.addFeatures(features);
+  });
+}
+
+var time = {
+  start: Infinity,
+  stop: -Infinity,
+  duration: 0
+};
+vectorSource.on('addfeature', function(event) {
+  var geometry = event.feature.getGeometry();
+  time.start = Math.min(time.start, geometry.getFirstCoordinate()[2]);
+  time.stop = Math.max(time.stop, geometry.getLastCoordinate()[2]);
+  time.duration = time.stop - time.start;
+});
+
+
+var wharton = [-96.1543889, 29.2542778]; // caution partner, read on...
+// since we are using OSM, we have to transform the coordinates...
+var whartonMercator = ol.proj.fromLonLat(wharton);
+
+
+
+
+var map = new ol.Map({
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM()
+    }),
+    new ol.layer.Vector({
+      source: vectorSource,
+      style: styleFunction
+    }),
+
+    vectorLineLayer,
+    vectorLayer
+  ],
+  target: 'map',
+  controls: ol.control.defaults({
+    attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+      collapsible: false
+    })
+  }),
+  view: new ol.View({
+    center: whartonMercator,
+    zoom: 9
+  })
+});
+
+
+
+var point = null;
+var line = null;
+var displaySnap = function(coordinate) {
+  var closestFeature = vectorSource.getClosestFeatureToCoordinate(coordinate);
+  var info = document.getElementById('info');
+  if (closestFeature === null) {
+    point = null;
+    line = null;
+    info.innerHTML = '&nbsp;';
+  } else {
+    var geometry = closestFeature.getGeometry();
+    var closestPoint = geometry.getClosestPoint(coordinate);
+    if (point === null) {
+      point = new ol.geom.Point(closestPoint);
+    } else {
+      point.setCoordinates(closestPoint);
+    }
+    var date = new Date(closestPoint[2] * 1000);
+    info.innerHTML =
+        closestFeature.get('PLT') + ' (' + date.toUTCString() + ')';
+    var coordinates = [coordinate, [closestPoint[0], closestPoint[1]]];
+    if (line === null) {
+      line = new ol.geom.LineString(coordinates);
+    } else {
+      line.setCoordinates(coordinates);
+    }
+  }
+  map.render();
+};
+
+map.on('pointermove', function(evt) {
+  if (evt.dragging) {
+    return;
+  }
+  var coordinate = map.getEventCoordinate(evt.originalEvent);
+  displaySnap(coordinate);
+});
+
+map.on('click', function(evt) {
+  displaySnap(evt.coordinate);
+});
+
+var imageStyle = new ol.style.Circle({
+  radius: 5,
+  fill: null,
+  stroke: new ol.style.Stroke({
+    color: 'rgba(255,0,255,0.9)',
+    width: 1
+  })
+});
+var strokeStyle = new ol.style.Stroke({
+  color: 'rgba(255,0,255,0.9)',
+  width: 1
+});
+map.on('postcompose', function(evt) {
+  var vectorContext = evt.vectorContext;
+  if (point !== null) {
+    vectorContext.setImageStyle(imageStyle);
+    vectorContext.drawPointGeometry(point);
+  }
+  if (line !== null) {
+    vectorContext.setFillStrokeStyle(null, strokeStyle);
+    vectorContext.drawLineStringGeometry(line);
+  }
+});
+
+var featureOverlay = new ol.layer.Vector({
+  source: new ol.source.Vector(),
+  map: map,
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 5,
+      fill: new ol.style.Fill({
+        color: 'rgba(255,0,0,0.9)'
+      }),
+      stroke: null
+    })
+  })
+});
+
+document.getElementById('time').addEventListener('input', function() {
+  var value = parseInt(this.value, 10) / 100;
+  var m = time.start + (time.duration * value);
+  vectorSource.forEachFeature(function(feature) {
+    var geometry = /** @type {ol.geom.LineString} */ (feature.getGeometry());
+    var coordinate = geometry.getCoordinateAtM(m, true);
+    var highlight = feature.get('highlight');
+    if (highlight === undefined) {
+      highlight = new ol.Feature(new ol.geom.Point(coordinate));
+      feature.set('highlight', highlight);
+      featureOverlay.getSource().addFeature(highlight);
+    } else {
+      highlight.getGeometry().setCoordinates(coordinate);
+    }
+  });
+  map.render();
+});
+
+</script>
+</body>
+</html>
