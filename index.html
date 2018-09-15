@@ -78,100 +78,67 @@ h2 {
           <div class='udiv_legende' id='legende_1'>
               <img id='cuhg_logo' src='https://www.cuhanggliding.com/wp-content/uploads/2017/11/shirt-design_21-1024x947.png'>
               <div id='Task'>
-                <h2 class="collapsible">XC Bohl 2018 - Task 1</h2>
-                
+                <h2 class="collapsible">CUHG to the Coast</h2>
+
+
                 <table>
                 <thead>
                 <tr>
                 <th  >No</th>
-                <th  >Leg Dist.</th>
                 <th  >Id</th>
-                <th  >Radius</th>
+                <th  >Leg Dist (km)</th>
+                <th  >Radius (m)</th>
                 <th  >Open</th>
                 <th  >Close</th>
                 <th  >Coordinates (Lat, Lon)</th>
+                <th  >Heading</th>
                 <th  >Altitude</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                <td  >1</td>
-                <td   align='right'>0.0 km
-                </td>
-                <td  >BIGSPR</td>
-                <td   align='right'>400 m
-                </td>
-                <td  >14:45</td>
-                <td  >20:00</td>
-                <td  >
-                    32.2176, -101.5249</td>
-                <td   align='right'>771 m
-                </td>
+                <td>1</td>
+                <td>CUHG</td>
+                <td>0.00</td>
+                <td>5000</td>
+                <td>12:00</td>
+                <td>17:00</td>
+                <td>29.25417, -96.15441</td>
+                <td>-</td>
+                <td>0</td>
                 </tr>
                 <tr>
-                <td  >2 SS</td>
-                <td   align='right'>6.1 km
-                </td>
-                <td  >WEST5K</td>
-                <td   align='right'>6000 m
-                </td>
-                <td>14:45</td>
-                <td>20:00</td>
-                <td>32.21625, -101.57717</td>
-                <td align='right'>754 m
-                </td>
+                <td>2</td>
+                <td>Matagorda Airport-R</td>
+                <td>78.97</td>
+                <td>3000</td>
+                <td>12:00</td>
+                <td>17:00</td>
+                <td>28.54406, -96.12111</td>
+                <td>178</td>
+                <td>0</td>
                 </tr>
                 <tr>
-                <td  >3</td>
-                <td   align='right'>37.6 km
-                </td>
-                <td  >ACKERL</td>
-                <td   align='right'>2000 m
-                </td>
-                <td  >14:45</td>
-                <td  >20:00</td>
-                <td>32.52643, -101.71603</td>
-                <td   align='right'>846 m
-                </td>
+                <td>3</td>
+                <td>Eagle Airpark-R</td>
+                <td>71.80</td>
+                <td>3001</td>
+                <td>12:00</td>
+                <td>17:00</td>
+                <td>28.98248, -95.57965</td>
+                <td>47</td>
+                <td>1</td>
                 </tr>
                 <tr>
-                <td  >4</td>
-                <td   align='right'>101.9 km
-                </td>
-                <td  >GAINES</td>
-                <td   align='right'>25000 m
-                </td>
-                <td  >14:45</td>
-                <td  >20:00</td>
-                <td> 32.671, -102.6465</td>
-                <td   align='right'>1006 m
-                </td>
-                </tr>
-                <tr>
-                <td  >5</td>
-                <td   align='right'>130.6 km
-                </td>
-                <td  >56T</td>
-                <td   align='right'>12000 m
-                </td>
-                <td  >14:45</td>
-                <td  >20:00</td>
-                <td> 32.92707, -102.12322</td>
-                <td   align='right'>945 m
-                </td>
-                </tr>
-                <tr>
-                <td  >6 ES</td>
-                <td   align='right'>149.0 km
-                </td>
-                <td  >LAMESA</td>
-                <td   align='right'>1000 m
-                </td>
-                <td  >14:45</td>
-                <td  >20:00</td>
-                <td> 32.7592, -101.9192</td>
-                <td   align='right'>914 m
-                </td>
+                <td>4</td>
+                <td>CUHG</td>
+                <td>63.44</td>
+                <td>3002</td>
+                <td>12:00</td>
+                <td>17:00</td>
+                <td>29.25417, -96.15441</td>
+                <td>299</td>
+                <td>2</td>
                 </tr>
                 </tbody>
                 </table>
@@ -198,32 +165,24 @@ h2 {
 <script>
 
             // Geometries
-            var wha     = new ol.geom.Circle(ol.proj.transform([-96.1543889, 29.2542778], 'EPSG:4326', 'EPSG:3857'), 400);
-            var circle  = new ol.geom.Circle(ol.proj.transform([-96.1543889, 29.2542778], 'EPSG:4326', 'EPSG:3857'), 6000 );
-            var gloster = new ol.geom.Circle(ol.proj.transform([-96.0598000, 29.7285833], 'EPSG:4326', 'EPSG:3857'), 2000 );
-            var eagle   = new ol.geom.Circle(ol.proj.transform([-96.3220667, 29.6004330], 'EPSG:4326', 'EPSG:3857'), 8000 );
-            var eagleair   = new ol.geom.Circle(ol.proj.transform([-95.579650000000, 28.982483333000], 'EPSG:4326', 'EPSG:3857'), 8000 );
-            var san1   = new ol.geom.Circle(ol.proj.transform([-96.984500000000, 27.943566667000], 'EPSG:4326', 'EPSG:3857'), 8000 );
-            var san2   = new ol.geom.Circle(ol.proj.transform([-97.864800000000, 29.892650000000], 'EPSG:4326', 'EPSG:3857'), 8000 );
-            var matago1   = new ol.geom.Circle(ol.proj.transform([-96.457233333000, 28.326683333000], 'EPSG:4326', 'EPSG:3857'), 8000 );
-            var matago2   = new ol.geom.Circle(ol.proj.transform([-96.121116667000, 28.544066667000], 'EPSG:4326', 'EPSG:3857'), 8000 );
-
-            var points = [[-96.1543889, 29.2542778],
-                          [-96.0598000, 29.7285833],
-                          [-96.3220667, 29.6004330],
-                          [-96.1543889, 29.2542778]];
-
-
+            var Cuhg = new ol.geom.Circle(ol.proj.transform([-96.1544055599185, 29.2541653935156], 'EPSG:4326', 'EPSG:3857'), 5000);
+            var Mat59 = new ol.geom.Circle(ol.proj.transform([-96.1211107777634, 28.5440604928273], 'EPSG:4326', 'EPSG:3857'), 3000);
+            var Eag25 = new ol.geom.Circle(ol.proj.transform([-95.5796453546778, 28.9824813861654], 'EPSG:4326', 'EPSG:3857'), 3001);
+            var Cuhg = new ol.geom.Circle(ol.proj.transform([-96.1544055599185, 29.2541653935156], 'EPSG:4326', 'EPSG:3857'), 3002);
+            var points = [
+            [-96.1544055599185, 29.2541653935156],
+            [-96.1211107777634, 28.5440604928273],
+            [-95.5796453546778, 28.9824813861654],
+            [-96.1544055599185, 29.2541653935156],
+            ];
             for (var i = 0; i < points.length; i++) {
                 points[i] = ol.proj.transform(points[i], 'EPSG:4326', 'EPSG:3857');
                 }
-
                 var featureLine = new ol.Feature({
                 geometry: new ol.geom.LineString(points)
                 });
             var vectorLine = new ol.source.Vector({});
             vectorLine.addFeature(featureLine);
-
             var vectorLineLayer = new ol.layer.Vector({
                 source: vectorLine,
                 style: new ol.style.Style({
@@ -231,26 +190,16 @@ h2 {
                 stroke: new ol.style.Stroke({ color: '#00FF00', width: 2 })
                 })
                 });
-
-            // Features
-            var pointFeature = new ol.Feature({geometry: wha, label: 'CUHG'});
-            var circleFeature = new ol.Feature(circle);
-            var glosterFeature = new ol.Feature({geometry: gloster, label: 'Gloster'});
-            var eagleFeature = new ol.Feature({geometry: eagle, label: 'Eagle 1 (Eagle Lake)'});
-            var eagleairFeature = new ol.Feature({geometry: eagleair, label: 'Eagle 2 (Eagle Air)'});
-            var san1Feature = new ol.Feature({geometry: san1, label: 'San 1 (San Jose Island)'});
-            var san2Feature = new ol.Feature({geometry: san2, label: 'San 2 (San Marcos Regional)'});
-            var matago1Feature = new ol.Feature({geometry: matago1, label: 'Matago 1 (Matagorda Island)'});
-            var matago2Feature = new ol.Feature({geometry: matago2, label: 'Matago 2 (Unverified runway)'});
-
-
-
-
-            // Source and vector layer
-            var vectorSource = new ol.source.Vector({
-                projection: 'EPSG:4326',
-                features: [pointFeature, circleFeature, glosterFeature, eagleFeature, eagleairFeature, san1Feature, san2Feature, matago1Feature, matago2Feature]
-            });
+            var CuhgFeature = new ol.Feature({geometry: Cuhg, label: 'CUHG'});
+            var Mat59Feature = new ol.Feature({geometry: Mat59, label: 'Matagorda Airport-R'});
+            var Eag25Feature = new ol.Feature({geometry: Eag25, label: 'Eagle Airpark-R'});
+            var CuhgFeature = new ol.Feature({geometry: Cuhg, label: 'CUHG'});
+            var vectorSource = new ol.source.Vector({ projection: 'EPSG:4326', features: [
+            CuhgFeature,
+            Mat59Feature,
+            Eag25Feature,
+            CuhgFeature,
+            ]});
 
             var style = new ol.style.Style({
                 fill: new ol.style.Fill({
@@ -344,8 +293,8 @@ var styleFunction = function(feature, resolution) {
 var vectorSource = new ol.source.Vector();
 
 var igcUrls = [
-  //'Bart.igc',
-  //'mick.igc',
+  'Bart.igc',
+  'mick.igc',
   //'Jeff_Colombia.igc',
   //'data/igc/Tom-Payne.igc',
   //'data/igc/Ulrich-Prinz.igc'
